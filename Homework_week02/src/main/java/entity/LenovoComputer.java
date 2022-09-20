@@ -11,6 +11,15 @@ public class LenovoComputer extends Computer{
 //    @Autowired
 //    @Qualifier("hPPrinter")
 //    public Printer printer;
+    @Autowired
+    public void setDisplayer(DellDisplayer dellDisplayer){
+        this.displayer = dellDisplayer;
+    }
+
+    @Autowired
+    public void setPrinter(HPPrinter hpPrinter){
+        this.printer = hpPrinter;
+    }
 
     @Override
     public String toString() {

@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 public abstract class Computer {
-    @Autowired
+//    @Autowired
     public Displayer displayer;
-    @Autowired
-    @Qualifier("HPPrinter")
+//    @Autowired
+//    @Qualifier("HPPrinter")
     public Printer printer;
 
 
