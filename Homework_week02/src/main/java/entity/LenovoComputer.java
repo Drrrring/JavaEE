@@ -11,18 +11,20 @@ public class LenovoComputer extends Computer{
 //    @Autowired
 //    @Qualifier("hPPrinter")
 //    public Printer printer;
-    @Autowired
-    public void setDisplayer(DellDisplayer dellDisplayer){
-        this.displayer = dellDisplayer;
-    }
+//    @Autowired
+//    public void setDisplayer(DellDisplayer dellDisplayer){
+//        this.displayer = dellDisplayer;
+//    }
+//
+//    @Autowired
+//    public void setPrinter(HPPrinter hpPrinter){
+//        this.printer = hpPrinter;
+//    }
 
-    @Autowired
-    public void setPrinter(HPPrinter hpPrinter){
-        this.printer = hpPrinter;
-    }
 
-    @Override
-    public String toString() {
-        return "LenovoComputer {" + "displayer: " + this.displayer.toString() + " printer: " + this.printer.toString() + "}";
+    //构造函数注入
+    public LenovoComputer(@Qualifier("dellDisplayerFactoryBean") Displayer displayer, @Qualifier("hpPrinter") Printer printer){
+        this.displayer = displayer;
+        this.printer = printer;
     }
 }

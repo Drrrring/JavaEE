@@ -10,5 +10,11 @@ public abstract class Computer {
 //    @Qualifier("HPPrinter")
     public Printer printer;
 
-
+    @Override
+    public String toString() {
+        return "Computer{" +
+                "displayer=" + displayer +
+                ", printer=" + printer +
+                '}';
+    }
 }

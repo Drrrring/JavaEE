@@ -1,12 +1,13 @@
 package entity;
 
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DellDisplayerFactoryBean implements FactoryBean<Displayer> {
     @Override
     public Displayer getObject() {
-        DellDisplayer dellDisplayer = new DellDisplayer();
-        return dellDisplayer;
+        return new DellDisplayer();
     }
 
     @Override
