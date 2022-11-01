@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.BlogMapper">
+    <resultMap id="blogMapping" type="domain.Blog" autoMapping="true">
+        <id property="blogId" column="blogId"/>
+        <result property="state" column="state" javaType="domain.BlogState" jdbcType="INTEGER"
+                typeHandler="domain.BlogStateHandler"/>
+        <association property="author" javaType="domain.Author">
+            <id property="authorId" column="authodId"/>
+            <result property="name" column="name"/>
+            <result property="email" column="email"/>
+        </association>
+        <collection property="posts" ofType="domain.Post">
+            <discriminator javaType="int" column="postId">
+                <case value="0" resultMap="regularPostMapping"/>
+                <case value="1" resultMap="draftPostMapping"/>
+            </discriminator>
+        </collection>
+    </resultMap>
+
+    <select id="selectBlog" resultMap="blogMapping">
+        select blog.id as blogId,
+               blog.state as state,
+               a.id as authodId,
+               a.name as name,
+               a.email as email,
+               p.id as postId,
+               p.title as title,
+               t.id as tagId,
+               t.name as tagName,
+               c.id as commentName,
+               c.text as commentText
+#         select *
+        from bootdb.blog
+                 left outer join bootdb.author a on a.id = blog.authorId
+                 left outer join bootdb.post p on p.id = blog.postId
+                 left outer join bootdb.tag t on t.id = p.tagId
+                 left outer join bootdb.comment c on c.id = p.commentId
+    </select>
+
+
+    <resultMap id="draftPostMapping" type="domain.DraftPost">
+        <id property="postId" column="postId"/>
+        <result property="postTitle" column="title"/>
+        <collection property="comments" javaType="ArrayList" column="commentId" ofType="domain.Comment"
+                    select="mappers.CommentMapper.selectComment"/>
+
+        <collection property="tags" javaType="ArrayList" column="tagId" ofType="domain.Tag"
+                    select="mappers.TagMapper.selectTag"/>
+
+    </resultMap>
+
+    <resultMap id="regularPostMapping" type="domain.RegularPost">
+        <id property="postId" column="postId"/>
+        <result property="postTitle" column="title"/>
+        <collection property="comments" javaType="ArrayList" column="commentId" ofType="domain.Comment"
+                    select="mappers.CommentMapper.selectComment"/>
+
+        <collection property="tags" javaType="ArrayList" column="tagId" ofType="domain.Tag"
+                    select="mappers.TagMapper.selectTag"/>
+
+    </resultMap>
+</mapper>

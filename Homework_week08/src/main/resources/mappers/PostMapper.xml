@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.PostMapper">
+
+    <resultMap id="draftPostMapping" type="domain.DraftPost">
+        <id property="postId" column="id"/>
+        <result property="postTitle" column="title"/>
+        <collection property="comments" javaType="ArrayList" column="id" ofType="domain.Comment"
+                    select="mappers.CommentMapper.selectComment"/>
+
+        <collection property="tags" javaType="ArrayList" column="id" ofType="domain.Tag"
+                    select="mappers.TagMapper.selectTag"/>
+
+    </resultMap>
+
+    <resultMap id="regularPostMapping" type="domain.RegularPost">
+        <id property="postId" column="id"/>
+        <result property="postTitle" column="title"/>
+        <collection property="comments" javaType="ArrayList" column="id" ofType="domain.Comment"
+                    select="mappers.CommentMapper.selectComment"/>
+
+        <collection property="tags" javaType="ArrayList" column="id" ofType="domain.Tag"
+                    select="mappers.TagMapper.selectTag"/>
+
+    </resultMap>
+
+    <!--    <select id="selectPost" resultMap="postMapping">-->
+    <!--        select p.id as postId,-->
+    <!--               p.title as title,-->
+    <!--               c.id as commentId,-->
+    <!--               c.text as commentText,-->
+    <!--               t.id as tagId,-->
+    <!--               t.name as tagName-->
+
+    <!--        from post p left outer join comment c on p.commentId = c.id left outer join tag t on p.tagId = t.id-->
+    <!--        where p.id = #{postId}-->
+    <!--    </select>-->
+
+<!--    <select id="selectPost" resultMap="postMapping">-->
+<!--        select *-->
+<!--        from bootdb.post-->
+<!--        where id = #{postId}-->
+<!--    </select>-->
+
+    <!--    <select id="selectCommentForPost" resultType="domain.Post">-->
+    <!--        select * from post-->
+    <!--        where post_id = #{postId}-->
+    <!--    </select>-->
+
+    <select id="selectTagForPost" resultType="domain.Tag">
+        select *
+        from tag
+        where post_id = #{tagId}
+    </select>
+</mapper>
